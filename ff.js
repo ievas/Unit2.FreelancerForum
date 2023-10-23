@@ -23,13 +23,21 @@ let professionArray = ["Graphic Designer", "Web Developer", "Photographer", "Wri
 
 //functions
 
+function avgPrice (arrOfObj){
+    let sum = 0;
+    for(obj of arrOfObj){
+        sum += obj.price
+    }
+    return sum/arrOfObj.length;
+
+}
+
 let freelancers = [
     { name: "Winston Smith", profession: "Records Officer", price: 150 },
     { name: "Lisbeth Salander", profession: "Hacker", price: 450 },
     { name: "Gabriel Oak", profession: "Shepherd", price: 205 }
 ]
 
-// document.querySelector
 
 // function generateFreelancerObj(){
 
@@ -44,6 +52,9 @@ for (let i = 0; i < freelancers.length; i++){
     let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
     freelancerTable.innerHTML += tr;
 }
+
+// document.querySelector
+document.querySelector("#avg").innerText = `$ ${Math.round(avgPrice(freelancers))}`;
 
 
 // let 
