@@ -44,17 +44,36 @@ let freelancers = [
 // }
 
 //initial array is rendered onto the page
+//do not use innerHtml
 
 let freelancerTable = document.querySelector("table");
 console.log(freelancerTable);
 
 for (let i = 0; i < freelancers.length; i++){
-    let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
-    freelancerTable.innerHTML += tr;
+    // let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
+    // freelancerTable.innerHTML += tr;
+    let tr = document.createElement("tr");
+    let td = document.createElement("td");
+    td.innerText = freelancers[i].name;
+    tr.appendChild(td);
+    let td2 = document.createElement("td");
+    td2.innerText = freelancers[i].profession;
+    tr.appendChild(td2);
+    let td3 = document.createElement("td");
+    td3.innerText = freelancers[i].price;
+    tr.appendChild(td3);
+
+    freelancerTable.appendChild(tr);
 }
 
+
+
+
+
 // document.querySelector
+
+//display avg price
 document.querySelector("#avg").innerText = `$ ${Math.round(avgPrice(freelancers))}`;
 
 
-// let 
+//set Intervals calls function addObj to dom every 10sec (until 15 obj have been added)
