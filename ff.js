@@ -23,14 +23,16 @@ let professionArray = ["Graphic Designer", "Web Developer", "Photographer", "Wri
 
 //functions
 
-function avgPrice (arrOfObj){
+function avgPrice(arrOfObj){
     let sum = 0;
     for(obj of arrOfObj){
         sum += obj.price
     }
     return sum/arrOfObj.length;
-
 }
+
+
+//initial Freelancer obj
 
 let freelancers = [
     { name: "Winston Smith", profession: "Records Officer", price: 150 },
@@ -39,41 +41,99 @@ let freelancers = [
 ]
 
 
-// function generateFreelancerObj(){
-
-// }
-
 //initial array is rendered onto the page
 //do not use innerHtml
 
 let freelancerTable = document.querySelector("table");
-console.log(freelancerTable);
+// console.log(freelancerTable);
 
-for (let i = 0; i < freelancers.length; i++){
-    // let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
-    // freelancerTable.innerHTML += tr;
-    let tr = document.createElement("tr");
-    let td = document.createElement("td");
-    td.innerText = freelancers[i].name;
-    tr.appendChild(td);
-    let td2 = document.createElement("td");
-    td2.innerText = freelancers[i].profession;
-    tr.appendChild(td2);
-    let td3 = document.createElement("td");
-    td3.innerText = freelancers[i].price;
-    tr.appendChild(td3);
+// for (let i = 0; i < freelancers.length; i++){
+//     // let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
+//     // freelancerTable.innerHTML += tr;
+//     let tr = document.createElement("tr");
+//     let td = document.createElement("td");
+//     td.innerText = freelancers[i].name;
+//     tr.appendChild(td);
+//     let td2 = document.createElement("td");
+//     td2.innerText = freelancers[i].profession;
+//     tr.appendChild(td2);
+//     let td3 = document.createElement("td");
+//     td3.innerText = freelancers[i].price;
+//     tr.appendChild(td3);
 
-    freelancerTable.appendChild(tr);
+//     freelancerTable.appendChild(tr);
+// }
+
+//takes an array of objects
+function render(arr){
+    for (let i = 0; i < arr.length; i++){
+        // let tr = `<tr><td>${freelancers[i].name}</td><td>${freelancers[i].profession}</td><td>${freelancers[i].price}</td></tr>`;
+        // freelancerTable.innerHTML += tr;
+        let tr = document.createElement("tr");
+        let td = document.createElement("td");
+        td.innerText = arr[i].name;
+        tr.appendChild(td);
+        let td2 = document.createElement("td");
+        td2.innerText = arr[i].profession;
+        tr.appendChild(td2);
+        let td3 = document.createElement("td");
+        td3.innerText = arr[i].price;
+        tr.appendChild(td3);
+        freelancerTable.appendChild(tr);
+    }
+    console.log(JSON.stringify(freelancers));
+    document.querySelector("#avg").innerText = `$ ${Math.round(avgPrice(freelancers))}`;
+}
+
+render(freelancers);
+
+
+//display avg price
+
+
+
+// random Number
+function randPrice() {
+    return Math.floor(Math.random()* 579);
+}
+
+// random index
+
+function randIdx(arr) {
+    return Math.floor(Math.random()*(arr.length - 1));
 }
 
 
+function createNewObj(arr1, arr2){
+    let newObj = {};
+    newObj.name = arr1[randIdx(arr1)];
+    newObj.profession = arr2[randIdx(arr2)]
+    newObj.price = randPrice();
+    return newObj;
+}
+
+console.log(createNewObj(nameArray, professionArray));
 
 
-
-// document.querySelector
-
-//display avg price
-document.querySelector("#avg").innerText = `$ ${Math.round(avgPrice(freelancers))}`;
+//setInterval calls render function  every 5sec
 
 
-//set Intervals calls function addObj to dom every 10sec (until 15 obj have been added)
+let freelancerInterval;
+let randomFreelancers = [];
+
+
+function producingFreelancersInterval(){
+    if (freelancerTable.childElementCount < 18){
+        randomFreelancers.push(createNewObj(nameArray, professionArray));
+        freelancers = [...freelancers, ...randomFreelancers];
+       
+        render(randomFreelancers);
+        
+        randomFreelancers = [];
+    } else {
+        clearInterval(freelancerInterval);
+    }
+}
+
+freelancerInterval = setInterval(producingFreelancersInterval, 1000);
+
